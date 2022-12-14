@@ -18,7 +18,7 @@ searchText.value = searchTextFromUrl.value;
 const { data, execute, isFinished } = useAxios();
 
 const userList = computed(() => {
-  return data.value?.data || [];
+  return data.value?.data?.slice(0, 10) || [];
 });
 
 let abortController;
@@ -97,20 +97,28 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div>
-    <input
-      type="text"
-      v-model="searchText"
-      @focus="onSearchInputFocused"
-      @blur="isSearchInputFocused = false"
-      @keydown.enter="onEnterHandler"
-    />
-    <button @click="searchText = ''">Clear</button>
-    <ul v-show="isShowSuggestions">
+  <div class="autocomplete-search">
+    <div class="autocomplete-search_wrap">
+      <input
+        type="text"
+        v-model="searchText"
+        @focus="onSearchInputFocused"
+        @blur="isSearchInputFocused = false"
+        @keydown.enter="onEnterHandler"
+      />
+      <button @click="searchText = ''" class="autocomplete-search_clear_btn">
+        Clear
+      </button>
+    </div>
+    <ul v-show="isShowSuggestions" class="autocomplete-search_suggestions_list">
       <li
         v-for="(user, index) in userList"
         :key="user.spa_id"
-        :class="{ selected: index == selectedIndex }"
+        :class="{
+          'autocomplete-search_suggestions_items__hover':
+            index == selectedIndex,
+        }"
+        class="autocomplete-search_suggestions_items"
       >
         {{ user.name }}
       </li>
@@ -119,8 +127,48 @@ onUnmounted(() => {
 </template>
 
 <style lang="scss">
-.selected {
-  background-color: #ccc;
-  color: red;
+@import "@/assets/styles/mixins.scss";
+
+.autocomplete-search {
+  padding: 2% 10%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  &_suggestions_list {
+    position: relative;
+    backdrop-filter: blur(8px);
+    background: rgba(19, 22, 22, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-top: none;
+
+    @include scrollbar;
+  }
+
+  &_suggestions_items {
+    padding: 10px 10px;
+    opacity: 0.8;
+    color: white;
+
+    &__hover,
+    &:hover {
+      background: linear-gradient(
+        180deg,
+        rgba(0, 255, 194, 0.2) 0%,
+        rgba(52, 239, 194, 0.1) 34.04%,
+        rgba(0, 255, 194, 0.1) 61.46%,
+        rgba(29, 246, 194, 0.2) 99.98%,
+        rgba(11, 253, 195, 0.3) 99.99%
+      );
+    }
+  }
+
+  &_wrap {
+    position: relative;
+  }
+
+  &_clear_btn {
+    position: absolute;
+  }
 }
 </style>

@@ -1,5 +1,5 @@
 <script setup>
-import SearchInput from "../components/SearchInput.vue";
+import SearchInput from "../components/AutocompleteSearch.vue";
 import UserResults from "../components/UserResults.vue";
 import { useRouteQuery } from "@vueuse/router";
 import { useStore } from "vuex";
@@ -12,9 +12,12 @@ if (searchText.value) {
 </script>
 
 <template>
-  <div>
-    <h1>Search</h1>
-    <SearchInput />
-    <UserResults />
+  <div class="page-container">
+    <div class="search-wrap">
+      <SearchInput />
+    </div>
+    <div class="search-result-wrap">
+      <UserResults />
+    </div>
   </div>
 </template>
