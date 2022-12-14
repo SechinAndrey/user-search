@@ -35,7 +35,6 @@ export default {
       );
       commit("setUsersList", data.value.data);
       commit("setCanLoadMore", data.value?.data?.length === state.limit);
-      console.log(data);
     },
   },
   getters: {

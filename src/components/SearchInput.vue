@@ -5,8 +5,10 @@ import { autocompleteUrl } from "../api/userApiUrls.js";
 import { useAxios } from "@vueuse/integrations/useAxios";
 import { useStore } from "vuex";
 import { useRouteQuery } from "@vueuse/router";
+import { useRouter } from "vue-router";
 
 const store = useStore();
+const router = useRouter();
 
 /* data fetching */
 const searchTextFromUrl = useRouteQuery("search", "");
@@ -76,7 +78,11 @@ const onSearchInputFocused = () => {
 /* enter handler */
 const onEnterHandler = () => {
   if (selectedIndex.value > -1) {
-    console.log(userList.value[selectedIndex.value].name);
+    const user = userList.value[selectedIndex.value];
+    router.push({
+      name: "user",
+      params: { id: user?.spa_id, name: user?.name },
+    });
   } else {
     // request to search
     searchTextFromUrl.value = searchText.value;

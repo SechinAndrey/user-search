@@ -31,3 +31,14 @@ body {
 ol, ul {
 	list-style: none;
 }
+
+html, body{
+	height: 100%;
+}
+
+#app{
+	width: 100%;
+	height: 100%;
+	background-color: red;
+	background-image: url('../imgs/bg.jpg');
+}
