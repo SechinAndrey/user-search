@@ -106,9 +106,10 @@ onUnmounted(() => {
         @blur="isSearchInputFocused = false"
         @keydown.enter="onEnterHandler"
       />
-      <button @click="searchText = ''" class="autocomplete-search_clear_btn">
-        Clear
-      </button>
+      <button
+        @click="searchText = ''"
+        class="autocomplete-search_clear_btn i-carbon-close"
+      ></button>
     </div>
     <ul v-show="isShowSuggestions" class="autocomplete-search_suggestions_list">
       <li
