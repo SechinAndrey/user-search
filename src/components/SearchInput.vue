@@ -4,11 +4,15 @@ import { watchThrottled, useEventListener } from "@vueuse/core";
 import { autocompleteUrl } from "../api/userApiUrls.js";
 import { useAxios } from "@vueuse/integrations/useAxios";
 import { useStore } from "vuex";
+import { useRouteQuery } from "@vueuse/router";
 
 const store = useStore();
 
 /* data fetching */
+const searchTextFromUrl = useRouteQuery("search", "");
 const searchText = ref("");
+searchText.value = searchTextFromUrl.value;
+
 const { data, execute, isFinished } = useAxios();
 
 const userList = computed(() => {
@@ -75,7 +79,7 @@ const onEnterHandler = () => {
     console.log(userList.value[selectedIndex.value].name);
   } else {
     // request to search
-    console.log("searchiing for: ", searchText.value);
+    searchTextFromUrl.value = searchText.value;
     store.dispatch("fetchUsers", searchText.value);
   }
 };

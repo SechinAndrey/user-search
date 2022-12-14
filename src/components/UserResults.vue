@@ -6,7 +6,6 @@ import { useStore } from "vuex";
 const store = useStore();
 
 const headers = ref(["spa_id", "name", "battlesCount", "winRate"]);
-console.log(store);
 
 const userList = computed(() => {
   return store.getters.usersList.map((user) => {
