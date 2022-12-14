@@ -21,8 +21,17 @@ const userList = computed(() => {
     };
   });
 });
+
+const canShowMore = computed(() => {
+  return store.getters.canLoadMore;
+});
+
+const showMore = () => {
+  store.dispatch("fetchUsers", store.getters.searchQuery);
+};
 </script>
 
 <template>
   <DataTable :headers="headers" :rows="userList" />
+  <button v-show="canShowMore" @click="showMore">Show More</button>
 </template>

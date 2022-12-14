@@ -6,6 +6,7 @@ export default {
     searchQuery: "",
     usersList: [],
     limit: 10,
+    canLoadMore: true,
   }),
   mutations: {
     setUsersList(state, usersList) {
@@ -14,13 +15,17 @@ export default {
     clear(state) {
       state.usersList = [];
       state.searchUrl = "";
+      state.canLoadMore = true;
     },
     setSearchQuery(state, searchQuery) {
       state.searchQuery = searchQuery;
     },
+    setCanLoadMore(state, canLoadMore) {
+      state.canLoadMore = canLoadMore;
+    },
   },
   actions: {
-    async fetchUsers({ commit, getters }, searchQuery) {
+    async fetchUsers({ commit, getters, state }, searchQuery) {
       if (searchQuery !== getters.searchQuery) {
         commit("clear");
         commit("setSearchQuery", searchQuery);
@@ -29,6 +34,7 @@ export default {
         `${searchUrl}/${searchQuery}?limit=10&name_gt=${getters.lastUserName}`
       );
       commit("setUsersList", data.value.data);
+      commit("setCanLoadMore", data.value?.data?.length === state.limit);
       console.log(data);
     },
   },
@@ -39,5 +45,6 @@ export default {
         ? state.usersList[state.usersList.length - 1].name
         : "",
     searchQuery: (state) => state.searchQuery,
+    canLoadMore: (state) => state.canLoadMore,
   },
 };

@@ -9,6 +9,10 @@ defineProps({
     type: Array,
     required: true,
   },
+  showIndex: {
+    type: Boolean,
+    default: true,
+  },
 });
 </script>
 
@@ -22,7 +26,8 @@ defineProps({
       </tr>
     </thead>
     <tbody>
-      <tr v-for="row in rows" :key="row.id">
+      <tr v-for="(row, index) in rows" :key="row.id">
+        <td v-if="showIndex">{{ index + 1 }}</td>
         <td v-for="header in headers" :key="header">
           {{ row[header] }}
         </td>
