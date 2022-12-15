@@ -1,0 +1,31 @@
+
+$black-transparent-20: rgba(0, 0, 0, 0.2);
+$dark-gray: rgba(19,22,22,0.5);
+$gray: rgba(255,255,255,0.15);
+$white-transparent-08: rgba(255,255,255,0.08);
+$cadetblue-transparent-20: rgba(0, 255, 204, 0.2);
+$cadetblue-transparent-05: rgba(0, 255, 204, 0.05);
+
+$input-box-shadow-color: rgb(0 0 0 / 30%);
+
+$text-color-main: #ddd;
+
+$scrollbar-thumb-bg: rgb(32, 32, 32);
+
+$btn-primary-lighter: #4e7779;
+$btn-primary-darker: #294444;
+$btn-primary-bg: linear-gradient(180deg,$btn-primary-lighter, $btn-primary-darker);
+$btn-primary-border-color: #6e6e6e;
+$btn-primary-color-hover: #adadad;
+
+// $btn-primary-color: #ddd;
+
+$table-header-bg: rgba(0,0,0,0.1);
+$table-hover-gradient: linear-gradient(
+  180deg,
+  rgba(0, 255, 194, 0.2) 0%,
+  rgba(52, 239, 194, 0.1) 34.04%,
+  rgba(0, 255, 194, 0.1) 61.46%,
+  rgba(29, 246, 194, 0.2) 99.98%,
+  rgba(11, 253, 195, 0.3) 99.99%
+);

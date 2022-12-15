@@ -1,10 +1,23 @@
 <script setup>
-import SearchInput from "../components/SearchInput.vue";
+import SearchInput from "../components/AutocompleteSearch.vue";
+import UserResults from "../components/UserResults.vue";
+import { useRouteQuery } from "@vueuse/router";
+import { useStore } from "vuex";
+const store = useStore();
+
+const searchText = useRouteQuery("search", "");
+if (searchText.value) {
+  store.dispatch("fetchUsers", searchText.value);
+}
 </script>
 
 <template>
-  <div>
-    <h1>Search</h1>
-    <SearchInput />
+  <div class="page-container">
+    <div class="search-wrap">
+      <SearchInput />
+    </div>
+    <div class="flex flex-col items-center">
+      <UserResults />
+    </div>
   </div>
 </template>
