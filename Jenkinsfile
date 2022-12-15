@@ -21,7 +21,7 @@ pipeline {
           withCredentials([sshUserPrivateKey(credentialsId: "${REMOTE_NAME}", keyFileVariable: 'identity')]) {
             remote.identityFile = identity
 
-            sshPut remote: remote, from: 'dist', into: 'user-test/'
+            sshPut remote: remote, from: 'dist', into: 'user-search/'
           }   
         }
       }
