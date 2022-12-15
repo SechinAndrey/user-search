@@ -125,7 +125,7 @@ onUnmounted(() => {
       <button
         v-show="searchText.length > 0"
         @click="clearResults"
-        class="autocomplete-search_clear_btn i-carbon-close"
+        class="autocomplete-search_clear_btn i-lucide-x"
       ></button>
       <ul
         v-show="isShowSuggestions"
@@ -186,7 +186,7 @@ onUnmounted(() => {
 
   &_clear_btn {
     position: absolute;
-    padding: 15px;
+    padding: 10px;
     height: 100% !important;
     cursor: pointer;
     opacity: 0.7;

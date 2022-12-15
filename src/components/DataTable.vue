@@ -26,15 +26,20 @@ defineProps({
   <table class="data-table">
     <thead>
       <tr>
-        <th v-for="header in headers" :key="header">
-          {{ header }}
+        <th
+          v-for="header in headers"
+          :key="header.key || header"
+          :style="{ width: header.width || 'auto' }"
+        >
+          <i v-show="header.icon" :class="header.icon"></i>
+          {{ header.displayText || header }}
         </th>
       </tr>
     </thead>
     <tbody>
       <tr @click="onRowClick(row)" v-for="row in rows" :key="row.id">
         <td v-for="header in headers" :key="header">
-          {{ row[header] }}
+          {{ row[header.key] || row[header] }}
         </td>
       </tr>
     </tbody>
@@ -50,6 +55,9 @@ defineProps({
 
   & > thead {
     background-color: $table-header-bg;
+    i {
+      vertical-align: bottom;
+    }
   }
 
   th,

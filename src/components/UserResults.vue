@@ -7,7 +7,29 @@ const router = useRouter();
 
 const store = useStore();
 
-const headers = ref(["id", "spa_id", "name", "battlesCount", "winRate"]);
+// const headers = ref(["id", "name", "battlesCount", "winRate"]);
+const headers = ref([
+  {
+    key: "id",
+    displayText: "№",
+    width: "7%",
+  },
+  {
+    key: "name",
+    displayText: "Name",
+    width: "70%",
+  },
+  {
+    key: "battlesCount",
+    displayText: "Battles Count",
+    icon: "i-lucide-swords",
+  },
+  {
+    key: "winRate",
+    displayText: "Win Rate",
+    icon: "i-lucide-trophy",
+  },
+]);
 
 const userList = computed(() => {
   return store.getters.usersList.map((user, index) => {
@@ -16,7 +38,7 @@ const userList = computed(() => {
     const winRate = +((winCount / battlesCount) * 100).toFixed(2) || "-";
 
     return {
-      id: index,
+      id: index + 1,
       spa_id: user.spa_id,
       name: user.name,
       battlesCount: battlesCount,
