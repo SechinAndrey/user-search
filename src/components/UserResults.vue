@@ -79,6 +79,6 @@ const showMore = () => {
     :class="{ btn_primary__loading: isLoading }"
     class="btn_primary mt-4"
   >
-    Show More
+    {{ isLoading ? "Loading..." : "Show more" }}
   </button>
 </template>

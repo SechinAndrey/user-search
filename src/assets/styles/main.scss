@@ -18,3 +18,12 @@ html, body{
 
 	@include scrollbar;
 }
+
+.page-container{
+	padding: 20px;
+}
+
+.basic-block{
+	padding: 20px;
+	background-color: $table-header-bg;
+}
