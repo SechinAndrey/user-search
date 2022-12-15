@@ -16,7 +16,7 @@ if (searchText.value) {
     <div class="search-wrap">
       <SearchInput />
     </div>
-    <div class="search-result-wrap">
+    <div class="flex flex-col items-center">
       <UserResults />
     </div>
   </div>

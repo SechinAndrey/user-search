@@ -7,6 +7,7 @@ export default {
     usersList: [],
     limit: 10,
     canLoadMore: true,
+    isLoading: false,
   }),
   mutations: {
     setUsersList(state, usersList) {
@@ -23,6 +24,9 @@ export default {
     setCanLoadMore(state, canLoadMore) {
       state.canLoadMore = canLoadMore;
     },
+    setIsLoading(state, isLoading) {
+      state.isLoading = isLoading;
+    },
   },
   actions: {
     async fetchUsers({ commit, getters, state }, searchQuery) {
@@ -30,11 +34,13 @@ export default {
         commit("clear");
         commit("setSearchQuery", searchQuery);
       }
+      commit("setIsLoading", true);
       const { data } = await useAxios(
         `${searchUrl}/${searchQuery}?limit=10&name_gt=${getters.lastUserName}`
       );
       commit("setUsersList", data.value.data);
       commit("setCanLoadMore", data.value?.data?.length === state.limit);
+      commit("setIsLoading", false);
     },
   },
   getters: {
@@ -45,5 +51,6 @@ export default {
         : "",
     searchQuery: (state) => state.searchQuery,
     canLoadMore: (state) => state.canLoadMore,
+    isLoading: (state) => state.isLoading,
   },
 };

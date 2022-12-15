@@ -74,15 +74,24 @@ const onSearchInputFocused = () => {
   isSearchInputFocused.value = true;
   selectedIndex.value = -1;
 };
+const onSearchInputBlur = () => {
+  setTimeout(() => {
+    isSearchInputFocused.value = false;
+  }, 200);
+};
+
+/* select handler */
+const onSelectHandler = (user) => {
+  router.push({
+    name: "user",
+    params: { id: user?.spa_id, name: user?.name },
+  });
+};
 
 /* enter handler */
 const onEnterHandler = () => {
   if (selectedIndex.value > -1) {
-    const user = userList.value[selectedIndex.value];
-    router.push({
-      name: "user",
-      params: { id: user?.spa_id, name: user?.name },
-    });
+    onSelectHandler(userList.value[selectedIndex.value]);
   } else {
     // request to search
     searchTextFromUrl.value = searchText.value;
@@ -91,6 +100,12 @@ const onEnterHandler = () => {
 };
 
 /* cleanup */
+const clearResults = () => {
+  searchText.value = "";
+  searchTextFromUrl.value = "";
+  store.commit("clear");
+};
+
 onUnmounted(() => {
   handleKeydownCleanup();
 });
@@ -103,64 +118,65 @@ onUnmounted(() => {
         type="text"
         v-model="searchText"
         @focus="onSearchInputFocused"
-        @blur="isSearchInputFocused = false"
+        @blur="onSearchInputBlur"
         @keydown.enter="onEnterHandler"
+        placeholder="Введите имя игрока"
       />
       <button
-        @click="searchText = ''"
+        v-show="searchText.length > 0"
+        @click="clearResults"
         class="autocomplete-search_clear_btn i-carbon-close"
       ></button>
-    </div>
-    <ul v-show="isShowSuggestions" class="autocomplete-search_suggestions_list">
-      <li
-        v-for="(user, index) in userList"
-        :key="user.spa_id"
-        :class="{
-          'autocomplete-search_suggestions_items__hover':
-            index == selectedIndex,
-        }"
-        class="autocomplete-search_suggestions_items"
+      <ul
+        v-show="isShowSuggestions"
+        class="autocomplete-search_suggestions_list"
       >
-        {{ user.name }}
-      </li>
-    </ul>
+        <li
+          v-for="(user, index) in userList"
+          @click="onSelectHandler(user)"
+          :key="user.spa_id"
+          :class="{
+            'autocomplete-search_suggestions_items__hover':
+              index == selectedIndex,
+          }"
+          class="autocomplete-search_suggestions_items"
+        >
+          {{ user.name }}
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <style lang="scss">
+@import "@/assets/styles/variables.scss";
 @import "@/assets/styles/mixins.scss";
 
 .autocomplete-search {
-  padding: 2% 10%;
-  position: relative;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  padding: 2% 10%;
+  position: relative;
 
   &_suggestions_list {
-    position: relative;
-    backdrop-filter: blur(8px);
-    background: rgba(19, 22, 22, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    top: 37px;
+    left: 0;
+    right: 0;
     border-top: none;
-
-    @include scrollbar;
+    position: absolute;
+    backdrop-filter: blur(8px);
+    background: $dark-gray;
+    border: 1px solid $gray;
   }
 
   &_suggestions_items {
     padding: 10px 10px;
     opacity: 0.8;
-    color: white;
 
     &__hover,
     &:hover {
-      background: linear-gradient(
-        180deg,
-        rgba(0, 255, 194, 0.2) 0%,
-        rgba(52, 239, 194, 0.1) 34.04%,
-        rgba(0, 255, 194, 0.1) 61.46%,
-        rgba(29, 246, 194, 0.2) 99.98%,
-        rgba(11, 253, 195, 0.3) 99.99%
-      );
+      background: $table-hover-gradient;
     }
   }
 
@@ -170,6 +186,16 @@ onUnmounted(() => {
 
   &_clear_btn {
     position: absolute;
+    padding: 15px;
+    height: 100% !important;
+    cursor: pointer;
+    opacity: 0.7;
+
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 }
 </style>
